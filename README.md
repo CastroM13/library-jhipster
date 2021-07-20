@@ -22,7 +22,7 @@ Run the following commands in two separate terminals to create a blissful develo
 auto-refreshes when files change on your hard drive.
 
 ```
-./mvnw
+./gradlew -x webapp
 npm start
 ```
 
@@ -98,14 +98,14 @@ update src/main/webapp/app/app.module.ts
 To build the final jar and optimize the library application for production, run:
 
 ```
-./mvnw -Pprod clean verify
+./gradlew -Pprod clean bootJar
 ```
 
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 To ensure everything worked, run:
 
 ```
-java -jar target/*.jar
+java -jar build/libs/*.jar
 ```
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
@@ -117,7 +117,7 @@ Refer to [Using JHipster in production][] for more details.
 To package your application as a war in order to deploy it to an application server, run:
 
 ```
-./mvnw -Pprod,war clean verify
+./gradlew -Pprod -Pwar clean bootWar
 ```
 
 ## Testing
@@ -125,7 +125,7 @@ To package your application as a war in order to deploy it to an application ser
 To launch your application's tests, run:
 
 ```
-./mvnw verify
+./gradlew test integrationTest jacocoTestReport
 ```
 
 ### Client tests
@@ -136,8 +136,11 @@ Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/te
 npm test
 ```
 
-UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`npm run e2e`) in a second one.
+### Other tests
+
+Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling).
+
+To use those tests, you must install Gatling from [https://gatling.io/](https://gatling.io/).
 
 For more information, refer to the [Running tests page][].
 
@@ -151,18 +154,12 @@ docker-compose -f src/main/docker/sonar.yml up -d
 
 Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
 
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the gradle plugin.
 
 Then, run a Sonar analysis:
 
 ```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
+./gradlew -Pprod clean check jacocoTestReport sonarqube
 ```
 
 For more information, refer to the [Code quality page][].
@@ -187,7 +184,7 @@ You can also fully dockerize your application and all the services that it depen
 To achieve this, first build a docker image of your app by running:
 
 ```
-./mvnw -Pprod verify jib:dockerBuild
+./gradlew bootJar -Pprod jibDockerBuild
 ```
 
 Then run:
@@ -205,18 +202,17 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 7.1.0 archive]: https://www.jhipster.tech/documentation-archive/v7.1.0
 [using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.1.0/development/
-[service discovery and configuration with the jhipster-registry]: https://www.jhipster.tech/documentation-archive/v7.1.0/microservices-architecture/#jhipster-registry
 [using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.1.0/docker-compose
 [using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.1.0/production/
 [running tests page]: https://www.jhipster.tech/documentation-archive/v7.1.0/running-tests/
 [code quality page]: https://www.jhipster.tech/documentation-archive/v7.1.0/code-quality/
 [setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.1.0/setting-up-ci/
+[gatling]: https://gatling.io/
 [node.js]: https://nodejs.org/
 [webpack]: https://webpack.github.io/
 [angular cli]: https://cli.angular.io/
 [browsersync]: https://www.browsersync.io/
 [jest]: https://facebook.github.io/jest/
 [jasmine]: https://jasmine.github.io/2.0/introduction.html
-[protractor]: https://angular.github.io/protractor/
 [leaflet]: https://leafletjs.com/
 [definitelytyped]: https://definitelytyped.org/
