@@ -11,16 +11,11 @@
       "error": "Erro"
     },
     "indicator": {
-      "discoveryComposite": "Discovery Composite",
-      "refreshScope": "Microservice Refresh Scope",
-      "clientConfigServer": "Microservice Config Server",
-      "hystrix": "Hystrix",
       "diskSpace": "Espaço em disco",
       "mail": "E-mail",
       "livenessState": "Liveness state",
       "readinessState": "Readiness state",
       "ping": "Application",
-      "elasticsearch": "Elasticsearch",
       "db": "Banco de dados"
     },
     "table": {

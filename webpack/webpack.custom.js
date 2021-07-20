@@ -16,7 +16,7 @@ module.exports = (config, options, targetOptions) => {
   config.cache = {
     // 1. Set cache type to filesystem
     type: 'filesystem',
-    cacheDirectory: path.resolve(__dirname, '../target/webpack'),
+    cacheDirectory: path.resolve(__dirname, '../build/webpack'),
     buildDependencies: {
       // 2. Add your config as buildDependency to get cache invalidation on config change
       config: [
