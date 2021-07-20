@@ -1,27 +1,3 @@
-application{
-	config{
-    	baseName library
-        packageName br.org.ciag.estagiario
-        applicationType monolith
-        authenticationType jwt
-        buildTool gradle
-        cacheProvider caffeine
-        databaseType sql
-        devDatabaseType h2Disk
-        prodDatabaseType mysql
-        enableHibernateCache true
-        enableTranslation true
-        clientFramework angularX
-        clientPackageManager npm
-        clientTheme flatly
-        languages [en, es, pt-br]
-        nativeLanguage pt-br
-        testFrameworks [gatling]
-        jhiPrefix app
-    }
-    entities *
-}
-
 DEFAULT_MIN_LENGTH = 4
 DEFAULT_MAX_LENGTH = 50
 
